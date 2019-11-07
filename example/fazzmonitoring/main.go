@@ -1,15 +1,22 @@
 package main
 
 import (
-	"github.com/kzolatech/go-monitoring/pkg/fazzmonitoring"
+	"github.com/payfazz/fazzmonitoring/pkg/fazzmonitoring"
 	"time"
 )
 
 func main() {
-	temp := fazzmonitoring.NewCounter("Custom_Counter", "Count every 2 sec")
+	counters := fazzmonitoring.CounterOpts{
+		Name:      "Custom_Counters",
+		Help:      "Count every 2 sec",
+		Namespace: "loanfazz",
+		Subsystem: "kasbon",
+	}
+	data := fazzmonitoring.NewCounter(counters)
+
 	go func() {
 		for {
-			temp.Inc()
+			data.Inc()
 			time.Sleep(2 * time.Second)
 		}
 	}()
